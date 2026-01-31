@@ -1,10 +1,13 @@
 # ECG-Based Sleep Apnea Detection System
 
 ![Project Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
-![Timeline](https://img.shields.io/badge/Timeline-2.5%20Months-blue)
+![Python Version](https://img.shields.io/badge/Python-3.13-blue)
 ![Tech Stack](https://img.shields.io/badge/Stack-Full--Stack-green)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
+![ML Framework](https://img.shields.io/badge/ML-TensorFlow-orange)
+![Database](https://img.shields.io/badge/Database-PostgreSQL%20%2B%20MongoDB-informational)
 
-## 🎯 Project Overview
+## Project Overview
 
 An end-to-end full-stack web application for automated detection of sleep apnea episodes using ECG, HRV (Heart Rate Variability), and SpO2 (Blood Oxygen Saturation) signals with machine learning/deep learning models.
 
@@ -12,21 +15,21 @@ An end-to-end full-stack web application for automated detection of sleep apnea 
 Sleep apnea is a serious sleep disorder affecting millions globally. Traditional diagnosis requires expensive overnight polysomnography tests. This project aims to create an accessible, automated screening tool using ECG-based signals.
 
 ### Key Features
-- ✅ Automated sleep apnea detection from ECG signals
-- ✅ Real-time signal processing and analysis
-- ✅ Interactive web-based user interface
-- ✅ Historical data tracking and analytics
-- ✅ Comprehensive reporting with visualizations
-- ✅ RESTful API for integration capabilities
+- Automated sleep apnea detection from ECG signals
+- Real-time signal processing and analysis
+- Interactive web-based user interface
+- Historical data tracking and analytics
+- Comprehensive reporting with visualizations
+- RESTful API for integration capabilities
 
-## 📊 Dataset
+## Dataset
 
 **APNEA HRV+SPO2 Dataset**
 - Source: PhysioNet / MIT-BIH Database
 - Signals: ECG, Heart Rate Variability (HRV), SpO2
 - Classes: Apnea episodes vs Normal breathing
 
-## 🛠 Technology Stack
+## Technology Stack
 
 ### Machine Learning & Data Processing
 - Python 3.8+, NumPy, Pandas, SciPy
@@ -45,7 +48,7 @@ Sleep apnea is a serious sleep disorder affecting millions globally. Traditional
 - State Management: Redux Toolkit
 - Charting: Recharts, Plotly.js
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ECG-Based Sleep Apnea Detection/
@@ -69,7 +72,7 @@ ECG-Based Sleep Apnea Detection/
 └── README.md
 ```
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - Python 3.8 or higher
@@ -106,40 +109,46 @@ pip install -r requirements.txt
 jupyter notebook notebooks/01_EDA.ipynb
 ```
 
-## 📈 Current Progress
+## Current Progress
 
-### Week 1-2: Foundation & Exploration ✅ (In Progress)
+### Week 1-2: Foundation & Documentation (Completed)
 
 #### Week 1 Completed
 - [x] Project setup and structure
 - [x] GitHub repository initialization
-- [x] Virtual environment setup
-- [x] Requirements installation
-- [ ] Dataset acquisition
-- [ ] Literature review
+- [x] Virtual environment setup (Python 3.13)
+- [x] Requirements installation (50+ packages)
+- [x] Data loader module implementation
+- [x] Signal processing utilities
+- [x] Configuration management
 
-#### Week 2 In Progress
-- [ ] Exploratory Data Analysis
-- [ ] Signal visualization
-- [ ] Statistical analysis
-- [ ] System design documentation
+#### Week 2 Completed
+- [x] System architecture documentation
+- [x] API documentation (25+ endpoints)
+- [x] Database schema design (PostgreSQL + MongoDB)
+- [x] Week 2 presentation with findings
+- [x] EDA notebook template created
+- [x] Environment test script
 
-## 🗺 Roadmap
+## Roadmap
 
-- **Week 1-2**: Foundation & Exploration (Current)
-- **Week 3-4**: Data Preprocessing & Feature Engineering
+- **Week 1-2**: Foundation & Documentation (Completed)
+- **Week 3-4**: Data Preprocessing & Feature Engineering (Next)
 - **Week 5-6**: Model Development & Training
 - **Week 7-8**: Backend Development
 - **Week 9**: Frontend Development
 - **Week 10**: Integration & Testing
 
-## 📝 Documentation
+## Documentation
 
+- [Architecture Design](./docs/ARCHITECTURE.md) - System architecture and deployment strategy
+- [API Documentation](./docs/API_DOCUMENTATION.md) - REST API endpoints with examples
+- [Database Schema](./docs/DATABASE_SCHEMA.md) - PostgreSQL and MongoDB schemas
+- [Week 2 Presentation](./docs/WEEK2_PRESENTATION.md) - Complete Week 2 deliverables
+- [Dataset Info](./docs/dataset.md) - Dataset specifications and download instructions
 - [Project Plan](./Untitled.md) - Full roadmap and timeline
-- [Dataset Info](./docs/dataset.md) - Dataset details (Coming soon)
-- [API Documentation](./docs/api.md) - API endpoints (Coming soon)
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run tests
@@ -149,15 +158,15 @@ pytest tests/
 pytest --cov=src tests/
 ```
 
-## 🤝 Contributing
+## Contributing
 
 This is an academic/research project. For collaboration inquiries, please reach out.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📧 Contact
+## Contact
 
 **Author**: happy2234  
 **Email**: gauravjangra1110@gmail.com
@@ -166,4 +175,4 @@ For questions or collaboration, please contact the project team.
 
 ---
 
-**Last Updated**: January 31, 2026
+**Last Updated**: February 1, 2026
