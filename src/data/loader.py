@@ -7,9 +7,17 @@ annotations, and metadata from the PhysioNet APNEA database.
 
 import numpy as np
 from pathlib import Path
-from typing import Tuple, Optional, Dict, List
-import wfdb
+from typing import Tuple, Optional, Dict, List, Any
 import logging
+
+# Conditional import for wfdb due to compatibility issues with pandas 3.0
+try:
+    import wfdb
+    WFDB_AVAILABLE = True
+except (ImportError, TypeError) as e:
+    logging.warning(f"wfdb import failed: {e}. ECG data loading will be limited.")
+    WFDB_AVAILABLE = False
+    wfdb = None
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -57,7 +65,7 @@ class APNEADataLoader:
         self, 
         record_name: str, 
         channels: Optional[List[int]] = None
-    ) -> Tuple[Optional[wfdb.Record], Optional[wfdb.Annotation]]:
+    ) -> Tuple[Optional[Any], Optional[Any]]:
         """
         Load a single ECG record with its annotations.
         
@@ -68,6 +76,10 @@ class APNEADataLoader:
         Returns:
             Tuple of (record, annotation) or (None, None) if error
         """
+        if not WFDB_AVAILABLE:
+            logger.error("wfdb is not available. Cannot load records.")
+            return None, None
+            
         try:
             record_path = str(self.data_dir / record_name)
             
@@ -91,7 +103,7 @@ class APNEADataLoader:
     
     def extract_signals(
         self, 
-        record: wfdb.Record
+        record: Any
     ) -> Dict[str, np.ndarray]:
         """
         Extract signals from a WFDB record.
@@ -102,6 +114,10 @@ class APNEADataLoader:
         Returns:
             Dictionary mapping signal names to arrays
         """
+        if not WFDB_AVAILABLE or record is None:
+            logger.error("Cannot extract signals without wfdb or valid record")
+            return {}
+            
         signals = {}
         
         for i, sig_name in enumerate(record.sig_name):
@@ -111,7 +127,7 @@ class APNEADataLoader:
     
     def extract_annotations(
         self, 
-        annotation: wfdb.Annotation
+        annotation: Any
     ) -> Dict[str, List]:
         """
         Extract annotation information.
