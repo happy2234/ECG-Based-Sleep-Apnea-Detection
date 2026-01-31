@@ -24,10 +24,12 @@ Sleep apnea is a serious sleep disorder affecting millions globally. Traditional
 
 ## Dataset
 
-**APNEA HRV+SPO2 Dataset**
-- Source: PhysioNet / MIT-BIH Database
-- Signals: ECG, Heart Rate Variability (HRV), SpO2
-- Classes: Apnea episodes vs Normal breathing
+**APNEA HRV+SPO2 Dataset** (HuGCDN2014-OXI Database)
+- Source: Mendeley Data - Dr. Negrín University Hospital (Las Palmas, Spain)
+- URL: https://data.mendeley.com/datasets/cdxs63gdzc/1
+- 83 subjects: 38 healthy controls, 45 OSA patients
+- ECG at 200 Hz, SpO2 at 50 Hz
+- Expert-labeled per AASM guidelines
 
 ## Technology Stack
 
@@ -100,8 +102,9 @@ pip install -r requirements.txt
 ```
 
 4. **Download dataset**
-- Visit PhysioNet APNEA database
-- Place files in `data/raw/` directory
+   - Visit Mendeley Data: https://data.mendeley.com/datasets/cdxs63gdzc/1
+   - Download HuGCDN2014-OXI.zip (~89.7 MB)
+   - Extract to `data/raw/` directory
 
 5. **Run initial setup**
 ```bash
