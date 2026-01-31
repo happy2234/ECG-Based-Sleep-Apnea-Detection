@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 ![ML Framework](https://img.shields.io/badge/ML-TensorFlow-orange)
 ![Database](https://img.shields.io/badge/Database-PostgreSQL%20%2B%20MongoDB-informational)
+[![Tests](https://github.com/happy2234/ECG-Based-Sleep-Apnea-Detection/workflows/Python%20Tests%20%26%20Code%20Quality/badge.svg)](https://github.com/happy2234/ECG-Based-Sleep-Apnea-Detection/actions)
 
 ## Project Overview
 
@@ -79,15 +80,17 @@ For detailed dataset information, see [Dataset Documentation](./docs/dataset.md)
 - **Async Processing**: Celery + Redis for long-running tasks
 - **Caching**: Redis for session and result caching
 
-## Project Structure
+## Project Structure & Architecture
+
+### Directory Organization
 
 ```
 ECG-Based Sleep Apnea Detection/
-├── data/                     # Data management
-│   ├── raw/                 # Raw dataset files
+├── data/                     # Data Management Layer
+│   ├── raw/                 # Raw dataset files (HuGCDN2014-OXI)
 │   ├── processed/           # Preprocessed signals
 │   └── external/            # External datasets
-├── src/                     # Source code
+├── src/                     # Source Code Layer
 │   ├── data/               # Data loading and preprocessing
 │   ├── features/           # Feature extraction pipeline
 │   ├── models/             # ML/DL model implementations
@@ -99,20 +102,45 @@ ECG-Based Sleep Apnea Detection/
 ├── tests/                  # Unit and integration tests
 ├── docs/                   # Documentation
 │   ├── ARCHITECTURE.md     # System design
-│   ├── API_DOCUMENTATION.md # API reference
-│   ├── DATABASE_SCHEMA.md  # Database design
-│   ├── dataset.md          # Dataset information
-│   └── WEEK2_PRESENTATION.md
+│   ├── API_DOCUMENTATION.md
+│   ├── DATABASE_SCHEMA.md
+│   ├── dataset.md
+│   ├── WEEK2_PRESENTATION.md
+│   └── PROJECT_STRUCTURE.md
 ├── config/                 # Configuration files
-│   └── config.py           # Central configuration
 ├── scripts/                # Utility scripts
-│   └── download_dataset.py # Dataset download script
-├── frontend/               # React.js frontend (planned)
+├── frontend/               # React frontend (planned)
 ├── backend/                # Flask/FastAPI backend (planned)
 ├── requirements.txt        # Python dependencies
-├── .gitignore              # Git ignore rules
-├── LICENSE                 # MIT License
-└── README.md               # This file
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+### System Architecture
+
+```
+Frontend Layer (React)
+  Dashboard | Upload | Analysis | Reports
+         |
+         | HTTP/REST
+         ▼
+API Gateway (NGINX)
+  Rate Limiting | Load Balancing | CORS
+         |
+    ┌────┼────┬────┐
+    ▼    ▼    ▼    ▼
+  Auth  Signal Results
+Service Process Service
+        Service
+         |
+    ML Pipeline
+  Preprocessing → Features → Models → Classification
+         |
+    ┌────┼────┬────┐
+    ▼    ▼    ▼    ▼
+PostgreSQL MongoDB Redis
+  (User)   (Signals) (Cache)
 ```
 
 ## Installation & Setup
@@ -234,14 +262,100 @@ See [requirements.txt](./requirements.txt) for complete dependency list.
 
 ## Development Roadmap
 
-| Phase | Timeline | Status | Key Deliverables |
-|-------|----------|--------|------------------|
-| Week 1-2 | Foundation | Complete | Architecture, API, Database Design |
-| Week 3-4 | Preprocessing | Next | Signal filtering, HRV extraction, Feature engineering |
-| Week 5-6 | ML Development | Planned | Model training, cross-validation, performance evaluation |
-| Week 7-8 | Backend | Planned | Flask API implementation, database integration |
-| Week 9 | Frontend | Planned | React dashboard, visualization |
-| Week 10 | Integration & Testing | Planned | System testing, deployment preparation |
+### 10-Week Implementation Timeline
+
+```
+WEEK 1-2: Foundation & Documentation (COMPLETED)
+════════════════════════════════════════════════════════════════
+Week 1: Setup & Infrastructure
+  [X] Project structure & organization
+  [X] GitHub repository & version control
+  [X] Python 3.13 environment (50+ packages)
+  [X] Core modules & testing framework
+
+Week 2: Design & Architecture
+  [X] System architecture documentation
+  [X] API specification (25+ endpoints)
+  [X] Database schema design
+  [X] Dataset documentation & specifications
+
+
+WEEK 3-4: Preprocessing & Feature Engineering (NEXT)
+════════════════════════════════════════════════════════════════
+Week 3: Signal Processing
+  [ ] ECG preprocessing (filtering, baseline correction)
+  [ ] R-peak detection algorithm
+  [ ] Noise removal & signal quality assessment
+  [ ] Signal segmentation & windowing
+
+Week 4: Feature Extraction
+  [ ] Time-domain HRV features (SDNN, RMSSD, pNN50)
+  [ ] Frequency-domain features (LF, HF, LF/HF ratio)
+  [ ] SpO2 feature extraction
+  [ ] Feature pipeline validation
+
+
+WEEK 5-6: Model Development & Training
+════════════════════════════════════════════════════════════════
+Week 5: Model Implementation
+  [ ] CNN-LSTM architecture design
+  [ ] Random Forest baseline model
+  [ ] Hyperparameter configuration
+  [ ] Training pipeline setup
+
+Week 6: Training & Evaluation
+  [ ] Dataset splitting (70/15/15)
+  [ ] Cross-validation framework
+  [ ] Model training with early stopping
+  [ ] Performance evaluation & metrics
+
+
+WEEK 7-8: Backend Development
+════════════════════════════════════════════════════════════════
+Week 7: API Implementation
+  [ ] Flask/FastAPI backend setup
+  [ ] JWT authentication system
+  [ ] Database integration
+  [ ] API endpoint implementation
+
+Week 8: Backend Features
+  [ ] File upload & async processing
+  [ ] Caching & session management
+  [ ] Error handling & logging
+  [ ] API documentation & testing
+
+
+WEEK 9: Frontend Development
+════════════════════════════════════════════════════════════════
+  [ ] React.js dashboard
+  [ ] User authentication UI
+  [ ] Patient management interface
+  [ ] Signal upload & visualization
+  [ ] Results & reporting display
+
+
+WEEK 10: Integration & Testing
+════════════════════════════════════════════════════════════════
+  [ ] End-to-end system integration
+  [ ] Comprehensive testing suite
+  [ ] Performance optimization
+  [ ] Security audit
+  [ ] Docker containerization
+  [ ] Deployment & documentation
+```
+
+### Progress Dashboard
+
+| Phase | Timeline | Completion | Status |
+|-------|----------|-----------|--------|
+| Foundation | Week 1-2 | 100% | Complete |
+| Features | Week 3-4 | 0% | Next |
+| ML Models | Week 5-6 | 0% | Planned |
+| Backend | Week 7-8 | 0% | Planned |
+| Frontend | Week 9 | 0% | Planned |
+| Integration | Week 10 | 0% | Planned |
+
+See [Project Structure & Roadmap](./docs/PROJECT_STRUCTURE.md) for detailed breakdown.
 
 ## Documentation
 
@@ -252,19 +366,60 @@ Complete documentation is available in the [docs/](./docs/) directory:
 - **[Database Design](./docs/DATABASE_SCHEMA.md)** - PostgreSQL and MongoDB schemas with relationships
 - **[Dataset Information](./docs/dataset.md)** - Full dataset specifications, download instructions, and usage examples
 - **[Week 2 Presentation](./docs/WEEK2_PRESENTATION.md)** - Comprehensive progress report and findings
+- **[Project Structure & Roadmap](./docs/PROJECT_STRUCTURE.md)** - Detailed visualization of structure and timeline
+- **[CI/CD & Testing](./docs/CI_CD.md)** - Automated testing and continuous integration setup
 
 ## Running Tests
 
+### Online Testing (GitHub Actions)
+
+Automated testing runs on every push and pull request:
+
+- **Platform**: GitHub Actions
+- **Python Versions**: 3.11, 3.12, 3.13
+- **Test Coverage**: Unit tests with coverage reporting
+- **Code Quality**: Black, isort, Pylint, Bandit
+- **Security**: Vulnerability scanning
+
+View workflow status: [GitHub Actions](https://github.com/happy2234/ECG-Based-Sleep-Apnea-Detection/actions)
+
+### Local Testing
+
 ```bash
+# Install test dependencies
+pip install pytest pytest-cov pytest-xdist
+
 # Run all tests
 pytest tests/ -v
 
 # Run with coverage report
 pytest tests/ --cov=src --cov-report=html
 
+# Run tests in parallel
+pytest tests/ -n auto
+
 # Run specific test file
-pytest tests/test_signals.py -v
+pytest tests/test_data.py -v
 ```
+
+### Code Quality Checks
+
+```bash
+# Format code
+black src/ tests/
+
+# Sort imports
+isort src/ tests/
+
+# Lint check
+pylint src/
+
+# Security check
+bandit -r src/
+```
+
+For detailed testing setup, see [CI/CD & Testing](./docs/CI_CD.md).
+
 
 ## Project Quality Standards
 
