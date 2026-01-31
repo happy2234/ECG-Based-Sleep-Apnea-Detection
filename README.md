@@ -155,9 +155,12 @@ This is an academic/research project. For collaboration inquiries, please reach 
 
 ## 📄 License
 
-This project is for educational and research purposes.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 📧 Contact
+
+**Author**: happy2234  
+**Email**: gauravjangra1110@gmail.com
 
 For questions or collaboration, please contact the project team.
 
