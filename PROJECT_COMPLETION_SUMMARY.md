@@ -280,4 +280,28 @@ When adding new features:
 **Testing Status**: Active & Operational  
 **Repository**: https://github.com/happy2234/ECG-Based-Sleep-Apnea-Detection  
 
-**Last Updated**: February 1, 2026
+
+**Last Updated**: February 8, 2026
+
+## Week 3 Completion: Feature Engineering
+
+### Accomplishments
+1.  **Refined Preprocessing (`notebooks/02_Preprocessing.ipynb`)**
+    -   Robust loading of .mat files
+    -   Physiological filtering of RR intervals and SpO2
+2.  **Feature Extraction (`notebooks/02_Feature_Engineering_Week3.ipynb`)**
+    -   Implemented Time-Domain features (Mean RR, SDNN, RMSSD, pNN50)
+    -   Implemented Frequency-Domain features (VLF, LF, HF, LF/HF Ratio)
+    -   Implemented Non-Linear features (SD1, SD2)
+    -   Implemented SpO2 features (Mean, Min, ODI)
+3.  **Data Generation**
+    -   Processed 83 subjects
+    -   Generated `processed_data/extracted_features.csv` for modeling
+
+### Week 3 Status
+| Component | Status | Details |
+|-----------|--------|---------|
+| Preprocessing | Complete | Cleaned RR and SpO2 signals |
+| Feature Code | Complete | Comprehensive extraction logic |
+| Dataset Creation | Complete | Features compiled for all subjects |
+
