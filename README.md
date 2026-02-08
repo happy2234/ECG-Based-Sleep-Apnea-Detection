@@ -97,8 +97,10 @@ ECG-Based Sleep Apnea Detection/
 │   ├── api/                # REST API endpoints
 │   └── utils/              # Utility functions and helpers
 ├── notebooks/              # Jupyter notebooks for analysis
-│   ├── 01_EDA_Week2.ipynb # Exploratory data analysis
-│   └── 02_Preprocessing.ipynb
+├── notebooks/              # Jupyter notebooks for analysis
+│   ├── 01_Exploratory_Data_Analysis.ipynb
+│   ├── 02_Data_Preprocessing.ipynb
+│   └── 03_Feature_Engineering.ipynb
 ├── tests/                  # Unit and integration tests
 ├── docs/                   # Documentation
 │   ├── ARCHITECTURE.md     # System design
@@ -280,19 +282,21 @@ Week 2: Design & Architecture
   [X] Dataset documentation & specifications
 
 
-WEEK 3-4: Preprocessing & Feature Engineering (NEXT)
+WEEK 3-4: Preprocessing & Feature Engineering (IN PROGRESS)
 ════════════════════════════════════════════════════════════════
-Week 3: Signal Processing
-  [ ] ECG preprocessing (filtering, baseline correction)
-  [ ] R-peak detection algorithm
-  [ ] Noise removal & signal quality assessment
-  [ ] Signal segmentation & windowing
+Week 3: Signal Processing & Features (COMPLETED)
+  [X] ECG preprocessing (filtering, baseline correction)
+  [X] R-peak detection & Signal quality assessment
+  [X] Time-domain HRV features (SDNN, RMSSD, pNN50)
+  [X] Frequency-domain features (LF, HF, LF/HF ratio)
+  [X] SpO2 feature extraction (ODI, Mean, Min)
+  [X] Feature pipeline validation
 
-Week 4: Feature Extraction
-  [ ] Time-domain HRV features (SDNN, RMSSD, pNN50)
-  [ ] Frequency-domain features (LF, HF, LF/HF ratio)
-  [ ] SpO2 feature extraction
-  [ ] Feature pipeline validation
+Week 4: Model Development (NEXT)
+  [ ] Dataset splitting (Train/Test/Val)
+  [ ] Model Selection (Random Forest, CNN-LSTM)
+  [ ] Training pipeline setup
+  [ ] Performance evaluation
 
 
 WEEK 5-6: Model Development & Training
@@ -349,8 +353,8 @@ WEEK 10: Integration & Testing
 | Phase | Timeline | Completion | Status |
 |-------|----------|-----------|--------|
 | Foundation | Week 1-2 | 100% | Complete |
-| Features | Week 3-4 | 0% | Next |
-| ML Models | Week 5-6 | 0% | Planned |
+| Features | Week 3 | 100% | Complete |
+| Modeling | Week 4-6 | 0% | Next |
 | Backend | Week 7-8 | 0% | Planned |
 | Frontend | Week 9 | 0% | Planned |
 | Integration | Week 10 | 0% | Planned |

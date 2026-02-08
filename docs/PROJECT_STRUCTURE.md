@@ -41,10 +41,11 @@ ECG-Based Sleep Apnea Detection/
 │       └── validators.py                 # Input validation
 │
 ├── notebooks/                             # Analysis & Experimentation
-│   ├── 01_EDA_Week2.ipynb                # Exploratory Data Analysis
-│   ├── 02_Preprocessing.ipynb            # Preprocessing pipeline
-│   ├── 03_Feature_Engineering.ipynb      # Feature extraction (Week 3-4)
-│   └── 04_Model_Development.ipynb        # Model training (Week 5-6)
+├── notebooks/                             # Analysis & Experimentation
+│   ├── 01_Exploratory_Data_Analysis.ipynb # Exploratory Data Analysis
+│   ├── 02_Data_Preprocessing.ipynb       # Preprocessing pipeline
+│   ├── 03_Feature_Engineering.ipynb      # Feature extraction (Week 3)
+│   └── 04_Model_Development.ipynb        # Model training (Week 4-6)
 │
 ├── tests/                                 # Testing Layer
 │   ├── __init__.py
@@ -153,21 +154,22 @@ Week 2: Design & Architecture
 └─ Dataset documentation                            [COMPLETE]
 
 
-WEEK 3-4: PREPROCESSING & FEATURE ENGINEERING (NEXT)
+WEEK 3-4: PREPROCESSING & FEATURE ENGINEERING (IN PROGRESS)
 ════════════════════════════════════════════════════════════════
 
-Week 3: Signal Processing
-├─ ECG preprocessing (filtering, baseline correction)    [ IN QUEUE ]
-├─ R-peak detection algorithm implementation             [ IN QUEUE ]
-├─ Noise removal & signal quality assessment             [ IN QUEUE ]
-└─ Signal segmentation and windowing                     [ IN QUEUE ]
+Week 3: Signal Processing & Features (COMPLETED)
+├─ ECG preprocessing (filtering, baseline correction)    [ COMPLETE ]
+├─ R-peak detection & Signal quality assessment          [ COMPLETE ]
+├─ Time-domain HRV features (SDNN, RMSSD, pNN50)        [ COMPLETE ]
+├─ Frequency-domain features (LF, HF, LF/HF ratio)      [ COMPLETE ]
+├─ SpO2 feature extraction (ODI, Mean, Min)             [ COMPLETE ]
+└─ Feature pipeline & validation                        [ COMPLETE ]
 
-Week 4: Feature Extraction
-├─ Time-domain HRV features (SDNN, RMSSD, pNN50)        [ IN QUEUE ]
-├─ Frequency-domain features (LF, HF, LF/HF ratio)      [ IN QUEUE ]
-├─ SpO2 feature extraction (desaturation events)        [ IN QUEUE ]
-├─ Statistical ECG features                             [ IN QUEUE ]
-└─ Feature pipeline & validation                        [ IN QUEUE ]
+Week 4: Model Development (NEXT)
+├─ Dataset splitting (Train/Test/Val)                   [ PLANNED ]
+├─ Model Selection (Random Forest, CNN-LSTM)            [ PLANNED ]
+├─ Training pipeline setup                              [ PLANNED ]
+└─ Performance evaluation                               [ PLANNED ]
 
 
 WEEK 5-6: MODEL DEVELOPMENT & TRAINING
@@ -241,9 +243,9 @@ Data Layer
   • Storage          File System            Week 1+       ACTIVE
 
 Feature Layer
-  • Extraction       BiospPy, NeuroKit2     Week 3-4      QUEUED
-  • Engineering      Custom Algorithms      Week 3-4      QUEUED
-  • Validation       Scikit-learn           Week 5        QUEUED
+  • Extraction       BiospPy, NeuroKit2     Week 3        COMPLETE
+  • Engineering      Custom Algorithms      Week 3        COMPLETE
+  • Validation       Scikit-learn           Week 3        COMPLETE
 
 ML/DL Layer
   • Preprocessing    TensorFlow Pipeline    Week 5-6      QUEUED
@@ -347,7 +349,7 @@ WEEK 3-4: Integration Tests (Features)
   ├─ Preprocessing pipeline tests
   ├─ Feature extraction tests
   ├─ End-to-end signal processing
-  └─ Status: QUEUED
+  └─ Status: IN PROGRESS
 
 WEEK 5-6: Model Tests
   ├─ Model training tests
@@ -389,13 +391,13 @@ WEEK 1-2 DELIVERABLES
 [X] Testing infrastructure
 
 
-WEEK 3-4 DELIVERABLES (UPCOMING)
+WEEK 3-4 DELIVERABLES (IN PROGRESS)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[ ] Preprocessing pipeline implementation
-[ ] Feature extraction module
-[ ] Jupyter notebooks with examples
-[ ] Feature engineering report
-[ ] Performance metrics documentation
+[X] Preprocessing pipeline implementation
+[X] Feature extraction module
+[X] Jupyter notebooks with professional naming
+[X] Feature engineering validation
+[ ] Model training pipeline (Week 4)
 
 
 WEEK 5-6 DELIVERABLES (PLANNED)
@@ -443,10 +445,10 @@ WEEK 1-2: Foundation Phase
   Status: COMPLETE (100%)
 
 WEEK 3-4: Feature Engineering Phase
-  Estimated Lines of Code: ~3,500
+  Lines of Code: ~3,500
   Modules: 12
-  Notebooks: 2
-  Status: NEXT PHASE
+  Notebooks: 3
+  Status: WEEK 3 COMPLETE
 
 WEEK 5-6: ML Development Phase
   Estimated Lines of Code: ~4,000

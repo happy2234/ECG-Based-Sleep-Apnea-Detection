@@ -286,10 +286,10 @@ When adding new features:
 ## Week 3 Completion: Feature Engineering
 
 ### Accomplishments
-1.  **Refined Preprocessing (`notebooks/02_Preprocessing.ipynb`)**
+1.  **Refined Preprocessing (`notebooks/02_Data_Preprocessing.ipynb`)**
     -   Robust loading of .mat files
     -   Physiological filtering of RR intervals and SpO2
-2.  **Feature Extraction (`notebooks/02_Feature_Engineering_Week3.ipynb`)**
+2.  **Feature Extraction (`notebooks/03_Feature_Engineering.ipynb`)**
     -   Implemented Time-Domain features (Mean RR, SDNN, RMSSD, pNN50)
     -   Implemented Frequency-Domain features (VLF, LF, HF, LF/HF Ratio)
     -   Implemented Non-Linear features (SD1, SD2)
