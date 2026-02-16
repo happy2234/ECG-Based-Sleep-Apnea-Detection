@@ -97,10 +97,10 @@ ECG-Based Sleep Apnea Detection/
 │   ├── api/                # REST API endpoints
 │   └── utils/              # Utility functions and helpers
 ├── notebooks/              # Jupyter notebooks for analysis
-├── notebooks/              # Jupyter notebooks for analysis
 │   ├── 01_Exploratory_Data_Analysis.ipynb
 │   ├── 02_Data_Preprocessing.ipynb
-│   └── 03_Feature_Engineering.ipynb
+│   ├── 03_Feature_Engineering.ipynb
+│   └── 04_Model_Results.ipynb
 ├── tests/                  # Unit and integration tests
 ├── docs/                   # Documentation
 │   ├── ARCHITECTURE.md     # System design
@@ -292,10 +292,10 @@ Week 3: Signal Processing & Features (COMPLETED)
   [X] SpO2 feature extraction (ODI, Mean, Min)
   [X] Feature pipeline validation
 
-Week 4: Model Development (NEXT)
-  [ ] Dataset splitting (Train/Test/Val)
-  [ ] Model Selection (Random Forest, CNN-LSTM)
-  [ ] Training pipeline setup
+Week 4: Model Development (IN PROGRESS)
+  [X] Dataset splitting (Train/Test/Val)
+  [/] Model Selection (Random Forest, CNN-LSTM)
+  [/] Training pipeline setup
   [ ] Performance evaluation
 
 
@@ -354,7 +354,7 @@ WEEK 10: Integration & Testing
 |-------|----------|-----------|--------|
 | Foundation | Week 1-2 | 100% | Complete |
 | Features | Week 3 | 100% | Complete |
-| Modeling | Week 4-6 | 0% | Next |
+| Modeling | Week 4-6 | 30% | In Progress |
 | Backend | Week 7-8 | 0% | Planned |
 | Frontend | Week 9 | 0% | Planned |
 | Integration | Week 10 | 0% | Planned |
