@@ -1,224 +1,109 @@
-"""
-Data loading utilities for APNEA HRV+SPO2 dataset.
-
-This module provides functions to load and parse ECG signals,
-annotations, and metadata from the PhysioNet APNEA database.
-"""
-
 import numpy as np
+import scipy.io
 from pathlib import Path
 from typing import Tuple, Optional, Dict, List, Any
 import logging
-
-# Conditional import for wfdb due to compatibility issues with pandas 3.0
-try:
-    import wfdb
-    WFDB_AVAILABLE = True
-except (ImportError, TypeError) as e:
-    logging.warning(f"wfdb import failed: {e}. ECG data loading will be limited.")
-    WFDB_AVAILABLE = False
-    wfdb = None
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 class APNEADataLoader:
     """
-    Data loader for APNEA HRV+SPO2 dataset from PhysioNet.
-    
-    Attributes:
-        data_dir (Path): Directory containing the raw data files
-        sampling_rate (int): Expected sampling rate for ECG signals
+    Data loader for APNEA HRV+SPO2 dataset using .mat files.
     """
     
-    def __init__(self, data_dir: str, sampling_rate: int = 100):
+    def __init__(self, data_dir: str):
         """
         Initialize the data loader.
         
         Args:
-            data_dir: Path to directory containing APNEA dataset
-            sampling_rate: Expected sampling rate (default: 100 Hz)
+            data_dir: Path to directory containing APNEA dataset (root with RR, SAT, LABELS)
         """
         self.data_dir = Path(data_dir)
-        self.sampling_rate = sampling_rate
         
         if not self.data_dir.exists():
             logger.warning(f"Data directory {self.data_dir} does not exist")
     
     def get_record_list(self) -> List[str]:
-        """
-        Get list of available records in the data directory.
-        
-        Returns:
-            List of record names (without extensions)
-        """
-        # Look for .hea files which indicate record names
-        header_files = list(self.data_dir.glob('*.hea'))
-        record_names = [f.stem for f in header_files]
-        
-        logger.info(f"Found {len(record_names)} records")
-        return sorted(record_names)
+        """Get list of available records (filenames without extension)."""
+        rr_dir = self.data_dir / "RR"
+        if not rr_dir.exists():
+            return []
+        mat_files = list(rr_dir.glob('*.mat'))
+        return sorted([f.stem for f in mat_files])
     
-    def load_record(
-        self, 
-        record_name: str, 
-        channels: Optional[List[int]] = None
-    ) -> Tuple[Optional[Any], Optional[Any]]:
-        """
-        Load a single ECG record with its annotations.
-        
-        Args:
-            record_name: Name of the record (without extension)
-            channels: List of channel indices to load (None = all)
-        
-        Returns:
-            Tuple of (record, annotation) or (None, None) if error
-        """
-        if not WFDB_AVAILABLE:
-            logger.error("wfdb is not available. Cannot load records.")
-            return None, None
+    def load_mat_data(self, record_name: str, subfolder: str) -> Optional[np.ndarray]:
+        """Load data from a specific .mat file."""
+        path = self.data_dir / subfolder / f"{record_name}.mat"
+        if not path.exists():
+            return None
             
         try:
-            record_path = str(self.data_dir / record_name)
+            mat = scipy.io.loadmat(str(path))
+            # Find the first key that doesn't start with __
+            keys = [k for k in mat.keys() if not k.startswith('__')]
+            if not keys:
+                return None
             
-            # Load record
-            record = wfdb.rdrecord(record_path, channels=channels)
-            logger.info(f"Loaded record {record_name}: {record.sig_len} samples")
-            
-            # Load annotations
-            try:
-                annotation = wfdb.rdann(record_path, 'apn')
-                logger.info(f"Loaded {len(annotation.sample)} annotations")
-            except FileNotFoundError:
-                logger.warning(f"No annotations found for {record_name}")
-                annotation = None
-            
-            return record, annotation
-            
+            data = mat[keys[0]]
+            # Handle potential cell arrays or nested structures
+            if data.dtype == 'O':
+                valid = [c.flatten() for c in data.flatten() if c.size > 0]
+                if valid:
+                    return np.concatenate(valid)
+                return None
+            return data.flatten()
         except Exception as e:
-            logger.error(f"Error loading record {record_name}: {e}")
-            return None, None
-    
-    def extract_signals(
-        self, 
-        record: Any
-    ) -> Dict[str, np.ndarray]:
-        """
-        Extract signals from a WFDB record.
-        
-        Args:
-            record: WFDB record object
-        
-        Returns:
-            Dictionary mapping signal names to arrays
-        """
-        if not WFDB_AVAILABLE or record is None:
-            logger.error("Cannot extract signals without wfdb or valid record")
-            return {}
-            
-        signals = {}
-        
-        for i, sig_name in enumerate(record.sig_name):
-            signals[sig_name] = record.p_signal[:, i]
-        
-        return signals
-    
-    def extract_annotations(
-        self, 
-        annotation: Any
-    ) -> Dict[str, List]:
-        """
-        Extract annotation information.
-        
-        Args:
-            annotation: WFDB annotation object
-        
-        Returns:
-            Dictionary with annotation details
-        """
-        if annotation is None:
-            return {'samples': [], 'symbols': [], 'types': []}
-        
-        return {
-            'samples': annotation.sample.tolist(),
-            'symbols': annotation.symbol,
-            'types': annotation.aux_note if hasattr(annotation, 'aux_note') else []
-        }
-    
-    def get_record_info(self, record_name: str) -> Dict:
-        """
-        Get metadata for a record without loading full signal.
-        
-        Args:
-            record_name: Name of the record
-        
-        Returns:
-            Dictionary with record metadata
-        """
-        try:
-            record_path = str(self.data_dir / record_name)
-            record = wfdb.rdheader(record_path)
-            
-            return {
-                'record_name': record_name,
-                'n_sig': record.n_sig,
-                'sig_len': record.sig_len,
-                'fs': record.fs,
-                'sig_name': record.sig_name,
-                'units': record.units,
-                'duration_min': record.sig_len / record.fs / 60
-            }
-        except Exception as e:
-            logger.error(f"Error reading header for {record_name}: {e}")
-            return {}
+            logger.error(f"Error loading {path}: {e}")
+            return None
 
+    def segment_signal(self, signal: np.ndarray, segment_size: int, overlap: int = 0) -> np.ndarray:
+        """Segment 1D signal into windows."""
+        if len(signal) < segment_size:
+            return np.array([])
+            
+        step = segment_size - overlap
+        n_segments = (len(signal) - overlap) // step
+        
+        segments = []
+        for i in range(n_segments):
+            start = i * step
+            end = start + segment_size
+            segments.append(signal[start:end])
+            
+        return np.array(segments)
+
+    def get_segmented_dataset(self, record_names: List[str], segment_seconds: int = 60) -> Tuple[np.ndarray, np.ndarray]:
+        """Load and segment records into sequences."""
+        X_segments = []
+        y_labels = []
+        
+        for name in record_names:
+            # We use RR as the primary signal for CNN-LSTM sequence
+            # Sampling rate for RR is effectively 1Hz for this dataset's processing?
+            # Actually, let's assume 1 sample per second as a baseline for the RR sequence
+            rr_signal = self.load_mat_data(name, "RR")
+            if rr_signal is None or len(rr_signal) < segment_seconds:
+                continue
+            
+            # Label from filename prefix: C=0, D/ND=1
+            label = 0 if name.startswith('C') else 1
+            
+            # Segment RR signal
+            segments = self.segment_signal(rr_signal, segment_seconds)
+            if len(segments) > 0:
+                X_segments.extend(segments)
+                y_labels.extend([label] * len(segments))
+                
+        return np.array(X_segments), np.array(y_labels)
 
 def load_dataset_summary(data_dir: str) -> Dict:
-    """
-    Load summary information for entire dataset.
-    
-    Args:
-        data_dir: Path to data directory
-    
-    Returns:
-        Dictionary with dataset summary statistics
-    """
+    """Load summary information for entire dataset."""
     loader = APNEADataLoader(data_dir)
     records = loader.get_record_list()
-    
-    summary = {
+    return {
         'total_records': len(records),
-        'record_names': records,
-        'records_info': []
+        'record_names': records
     }
-    
-    for record_name in records[:5]:  # Sample first 5
-        info = loader.get_record_info(record_name)
-        if info:
-            summary['records_info'].append(info)
-    
-    return summary
-
-
-if __name__ == "__main__":
-    # Example usage
-    data_dir = "../data/raw"
-    
-    loader = APNEADataLoader(data_dir)
-    records = loader.get_record_list()
-    
-    print(f"Found {len(records)} records")
-    
-    if records:
-        # Load first record
-        record, annotation = loader.load_record(records[0])
-        
-        if record:
-            signals = loader.extract_signals(record)
-            print(f"Extracted signals: {list(signals.keys())}")
-            
-            if annotation:
-                ann_data = loader.extract_annotations(annotation)
-                print(f"Number of annotations: {len(ann_data['samples'])}")
